@@ -11,14 +11,14 @@ library(data.table)
 #read the data from psychcentral_data file using fread function
 data <- fread("psychcentral_data.csv", sep=",", header=T, strip.white = T, na.strings = c("NA","NaN","","?")) 
 
-#3.1 - column Names in data
+#to get number and column Names in data
 ncol(data)
 colnames(data)
 
-#3.2 - Number of rows in data
+#Number of rows in data
 nrow(data)
 
-#4.1 - Use libraries tidytext and dplyr to tokenize column q_content
+#Use libraries tidytext and dplyr to tokenize column q_content
 install.packages("tidytext", repos = "https://cran.r-project.org")
 install.packages("dplyr", repos = "https://cran.r-project.org")
 library(tidytext)
@@ -44,7 +44,7 @@ tidy_text <- tidy_text %>%
 tidy_text %>%
   count(word, sort = TRUE) 
 
-#4.2 - library "ggplot2" to create a visualization that shows the frequency of the tokens 
+#library "ggplot2" to create a visualization that shows the frequency of the tokens 
 #that appeared for at least 2000 times
 library(ggplot2)
 tidy_text %>%
@@ -64,7 +64,7 @@ tidy_text <- data %>%
   unnest_tokens(word, q_content) %>%
   mutate(word = wordStem(word)) 
 
-#4.4.1 - removing stop words using anti_join function
+#removing stop words using anti_join function
 data(stop_words)
 tidy_text <- tidy_text %>%
   anti_join(stop_words)
@@ -73,7 +73,7 @@ tidy_text <- tidy_text %>%
 tidy_text %>%
   count(word, sort = TRUE) 
 
-#4.4.2 - library "ggplot2" to create a visualization that shows the frequency of the tokens 
+#library "ggplot2" to create a visualization that shows the frequency of the tokens 
 #that appeared for at least 4000 times
 library(ggplot2)
 tidy_text %>%
@@ -85,7 +85,7 @@ tidy_text %>%
   xlab(NULL) +
   coord_flip()
 
-#4.4.3 - library "wordcloud" to create a word cloud with the 200 most used tokens
+#library "wordcloud" to create a word cloud with the 200 most used tokens
 install.packages("wordcloud")
 library(wordcloud)
 
@@ -94,7 +94,7 @@ tidy_text %>%
   count(word) %>%
   with(wordcloud(word, n, max.words = 200))
 
-#4.4.4 - Creating a color-coded word cloud based on sentiment. 
+#Creating a color-coded word cloud based on sentiment. 
 #Use the most frequent 100 tokens for positive and negative words.
 install.packages("reshape2", repos = "https://cran.r-project.org")
 library(reshape2)
@@ -106,9 +106,9 @@ tidy_text %>%
   comparison.cloud(colors = c("#F8766D", "#00BFC4"),
                    max.words = 100)
 #=======================================================================
-#repeat set of questions in 4 for question 5 for column "answers"
+#repeat above steps for column "answers"
 #=======================================================================
-#5.1 - Use libraries tidytext and dplyr to tokenize column answers
+#Use libraries tidytext and dplyr to tokenize column answers
 library(tidytext)
 library(dplyr)
 
@@ -132,7 +132,7 @@ tidy_text1 <- tidy_text1 %>%
 tidy_text1 %>%
   count(word, sort = TRUE) 
 
-#5.2 - library "ggplot2" to create a visualization that shows the frequency of the tokens 
+#library "ggplot2" to create a visualization that shows the frequency of the tokens 
 #that appeared for at least 4000 times
 library(ggplot2)
 tidy_text1 %>%
@@ -151,7 +151,7 @@ tidy_text1 <- data %>%
   unnest_tokens(word, answers) %>%
   mutate(word = wordStem(word)) 
 
-#5.3.1 - removing stop words using anti_join function
+#removing stop words using anti_join function
 data(stop_words)
 tidy_text1 <- tidy_text1 %>%
   anti_join(stop_words)
@@ -160,7 +160,7 @@ tidy_text1 <- tidy_text1 %>%
 tidy_text1 %>%
   count(word, sort = TRUE) 
 
-#5.3.2 - library "ggplot2" to create a visualization that shows the frequency of the tokens 
+#library "ggplot2" to create a visualization that shows the frequency of the tokens 
 #that appeared for at least 6000 times
 library(ggplot2)
 tidy_text1 %>%
@@ -172,7 +172,7 @@ tidy_text1 %>%
   xlab(NULL) +
   coord_flip()
 
-#5.3.3 - library "wordcloud" to create a word cloud with the 200 most used tokens
+#library "wordcloud" to create a word cloud with the 200 most used tokens
 library(wordcloud)
 
 tidy_text1 %>%
@@ -180,7 +180,7 @@ tidy_text1 %>%
   count(word) %>%
   with(wordcloud(word, n, max.words = 200))
 
-#5.3.4 - Creating a color-coded word cloud based on sentiment. 
+#Creating a color-coded word cloud based on sentiment. 
 #Use the most frequent 100 tokens for positive and negative words.
 library(reshape2)
 
@@ -192,7 +192,7 @@ tidy_text1 %>%
                    max.words = 100)
 
 #============================================================
-#6 - topic-modeling on q_content
+#Topic-modeling on q_content
 #============================================================
 install.packages("tm")
 install.packages("topicmodels")
@@ -247,7 +247,7 @@ top_terms %>%
   facet_wrap(~ topic, scales = "free") +
   coord_flip()
 #============================================================
-#7 - topic-modeling on answers
+#Topic-modeling on answers
 #============================================================
 library(tm)
 library(wordcloud)
